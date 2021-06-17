@@ -25,9 +25,9 @@ The signature of our `buyDrink` function is :
 buyDrink: (Person, BarTender) => Drink
 ```
 Just by reading the type signature, you can't tell that the function might fail.
-A new developer have to go read the implementation in order to understand fully what's going on here.
-Another problem of this approach is that a function's caller is not forced to handle the failure.
-For example, the following code is valid.
+You have to go read the implementation in order to understand fully what's going on.
+Another problem of this approach is that all callers are not forced to handle the possible failure.
+For example, you wrote the following code.
 
 ```typescript
 const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
@@ -39,7 +39,8 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
 
 In `helpAFellowWithoutAGlass`, you don't intially see that it can fail. 
 You have to go read `buyDrink` to understand that this operation can fail.
-The code compiles, but <b>no function is forced to handle the exception</b> in all the code base.
+The code compiles, but <b>your function is not forced to handle the exception</b>.
+It's wierd because you are probably the best person to know what to do if `buyDrink` doesn't work.
 
 You cannot let this go unpunished, you take upon you to fix the situation. 
 You know what to do when you buy a drink for someone and they lied to you. You fine them with a nice 250$.
