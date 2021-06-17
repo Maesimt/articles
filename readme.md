@@ -2,6 +2,8 @@
 
 In our code, we write functions that can fail. They can fail because the domain forbids it or simply because an unknown error happened, like when an http request doesn't receives a response.
 
+## The situation
+
 Here's the situation, we have a function to buy a drink, a customer and a bartender.
 
 ```typescript
@@ -55,17 +57,67 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
   }
 };
 ```
+#### When it goes to shit.
 
 A few months after the initial writing of the `buyDrink` function, one of your coworker was doing some boyscouting and accidently suppress your `try catch`.
-Now the exception is not handled in the codebase and the Typescript compiler is totally fine with it.
+Now the exception is not handled at all in the codebase and the Typescript compiler is totally fine with it.
 You and your coworker are unaware of the issue because you trust your fellow compiler, the all mighty Typescript one.
 You will encounter the exception at runtime. It's only a matter of time and your system is not prepared to handle it.
 A crash is inevitable. Your monitoring system will inform you in a few week.
 
-Was there a way to prevent all of this ?
+## Was there a way to prevent all of this ?
+
+It would be nice if the Typescript compiler could help us with this.
+
+### Go
+In `Go`, they express that a function can fail by returning a tuple.
+```Go
+f, err := repository.getSomething()
+if err != nil {
+    log.Fatal(err)
+}
+doSomething(f)
+```
+They first check that the function call didn't produce an error. If `err` is `nil` then they can safely use the `f`.
+
+### Elm
+
+In Elm, they took a different approach. Instead of returning a tuple. They return a value that can either be the right value or an error.
+Their structure is defined like this :
+```elm
+type Result error value
+    = Ok value
+    | Err error
+```
+If we code our `buyDrink` function in Elm
+``` elm
+buyDrink : Person -> BarTender -> Result String Drink
+buyDrink person barTender =
+  case isAdult person of 
+    True ->
+      let 
+        drink =
+          Ok (serveClient barTender)
+      in
+        
+    False ->
+      Err 'People under 18 cannot drink alcool'
+};
+```
+* Notes : `Ok` and `Err` are type constructor for the Result type.
+
+### FP-TS
+
+In FP-TS they use the same concept has Elm and Haskell. 
+They define an `Either` type like this :
+
+```typescript
+type Either<E, A> = Left<E> | Right<A>
+```
 
 
 
+### Custom with the promise syntax.
 
 
 
