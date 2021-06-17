@@ -103,10 +103,7 @@ serve : Person -> BarTender -> Result String Drink
 serve person barTender =
   case isAdult person of 
     True ->
-      let 
-        drink =
-          Ok (Drink "old fashionned")
-      in
+      Ok (Drink "old fashionned")
         
     False ->
       Err "People under 18 cannot drink alcool"
