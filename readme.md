@@ -29,7 +29,7 @@ class IllegalPersonAction extends Error {
 }
 ```
 
-The signature of our `buyDrink` function is :
+The signature of our `serve` function is :
 ```
 serve: Person -> Drink
 ```
