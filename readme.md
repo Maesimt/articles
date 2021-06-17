@@ -101,7 +101,7 @@ buyDrink person barTender =
       in
         
     False ->
-      Err 'People under 18 cannot drink alcool'
+      Err "People under 18 cannot drink alcool"
 };
 ```
 * Notes : `Ok` and `Err` are type constructor for the Result type.
