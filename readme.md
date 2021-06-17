@@ -155,7 +155,7 @@ class BarTender {
     if (!person.isAdult()) {
        return failure('People under 18 cannot drink alcool');
     }
-    return success(barTender.serveClient()); 
+    return success(new Drink("old fashionned"); 
   };
 }
 ```
@@ -170,7 +170,7 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
 To access the value you are force to code the `if` branch and define what you want to do in case of failure.
 ```typescript
 const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
-    const result = barTender.serve(person);
+    const result: Result<String, Drink> = barTender.serve(person);
     
     if (result.isError()) {
       person.getsAFine(250);
