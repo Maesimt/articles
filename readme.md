@@ -97,7 +97,7 @@ type Result error value
     = Ok value
     | Err error
 ```
-If we code our `buyDrink` function in Elm
+If we code our `serve` function in Elm
 ``` elm
 serve : Person -> Result String Drink
 serve person =
@@ -144,7 +144,7 @@ class Failure<A, B> implements IResult<A, B> {
   
 }
 ```
-Now if we rewrite our `buyDrink` function with this.
+Now if we rewrite our `serve` function with this.
 ```typescript
 import type { Result } from './Result';
 import { success, failure } from './Result';
