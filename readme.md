@@ -59,7 +59,7 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender): Drink =
 ```
 #### When it starts to crumble.
 
-A few months after the initial writing of the `buyDrink` function, one of your coworker was doing some boyscouting and accidently suppress your `try catch`.
+A few months after the initial writing of the `helpAFellowWithoutAGlass` function, one of your coworker was doing some boyscouting and accidently suppress your `try catch`.
 Now the exception is not handled at all in the codebase and the Typescript compiler is totally fine with it.
 You and your coworker are unaware of the issue because you trust your fellow compiler, the all mighty Typescript one.
 You will encounter the exception at runtime. It's only a matter of time and your system is not prepared to handle it.
