@@ -31,7 +31,7 @@ class IllegalPersonAction extends Error {
 
 The signature of our `buyDrink` function is :
 ```
-serve: Person => Drink
+serve: Person -> Drink
 ```
 Just by reading the type signature, you can't tell that the function might fail.
 You have to go read the implementation in order to understand fully what's going on.
