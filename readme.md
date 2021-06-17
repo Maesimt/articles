@@ -110,9 +110,9 @@ serve person =
 ```
 * Notes : `Ok` and `Err` are type constructor for the Result type.
 
-### FP-TS
+### fp-ts
 
-In FP-TS they use the same concept has Elm and Haskell. 
+In fp-ts they use the same concept has Elm and Haskell. 
 They define an `Either` type like this :
 
 ```typescript
@@ -122,7 +122,7 @@ With lots of functions to operate on the type.
 
 ### A friendly implementation
 
-We wrote our own implementation of the Either type in Typescript. We did it to reduce the learning curve that comes with libraries like `Fp-Ts`. One of our goal was a syntax that most javascript developers would understand.
+We wrote our own implementation of the Either type in Typescript. We did it to reduce the learning curve that comes with libraries like `fp-ts`. One of our goal was a syntax that most javascript developers would understand.
 
 For this we defined our own `Result` like this.
 ```typescript
