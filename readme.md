@@ -47,9 +47,9 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
 ```
 
 In `helpAFellowWithoutAGlass`, you don't intially see that it can fail. 
-You have to go read `buyDrink` to understand that this operation can fail.
+You have to go read `serve` to understand that this operation can fail.
 The code compiles, but <b>your function is not forced to handle the exception</b>.
-It's wierd because you are probably the best person to know what to do if `buyDrink` doesn't work.
+It's wierd because you are probably the best person to know what to do if `serve` doesn't work.
 
 You cannot let this go unpunished, you take upon you to fix the situation. 
 You know what to do when you buy a drink for someone and they lied to you. You fine them with a nice 250$.
