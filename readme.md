@@ -190,8 +190,8 @@ interface IResult<A, B> {
   withDefault<C>(fallback: C): B | C;
 }
 ```
-This allows you to define what you want to do with the result in case it went right or wrong. 
-You can transform the data, extract values with default if there are not there, etc...
+It allows you to define what you want to do with the result in case it went right or wrong. 
+You can transform the data, extract value with default fallback if it was not there, etc...
 ```typescript
 const result = fetchPersons().map(takeFirst).withDefault(MikeTyson);
 ```
