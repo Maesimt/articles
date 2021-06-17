@@ -206,3 +206,6 @@ if (result.isError()) {
 return takeFirst(result.value);
 
 ```
+To understand what you can do with it, you can check the sources :
+Code: https://github.com/Maesimt/articles/blob/main/Result.ts
+Tests: https://github.com/Maesimt/articles/blob/main/Result.test.ts
