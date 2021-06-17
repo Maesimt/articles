@@ -171,7 +171,7 @@ describe('Testing Result behavior', () => {
   });
 
   describe('Complex chaining', () => {
-    it('expects everthing to chain nicely', () => {
+    it('expects every operation to be chainable', () => {
       const result = success(2)
         .map((element) => element * 2)
         .mapError(() => 'A Nice error message')
