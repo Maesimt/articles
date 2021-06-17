@@ -195,7 +195,7 @@ You can transform the data, extract values with default if there are not there, 
 const result = fetchPersons().map(takeFirst).withDefault(MikeTyson);
 ```
 The above example is replacing the more verbose way to do it:
-```
+```typescript
 const result = fetchPersons();
 
 if (result.isError()) {
