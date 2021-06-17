@@ -57,7 +57,7 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
   }
 };
 ```
-#### When it goes to shit.
+#### When it starts to crumble.
 
 A few months after the initial writing of the `buyDrink` function, one of your coworker was doing some boyscouting and accidently suppress your `try catch`.
 Now the exception is not handled at all in the codebase and the Typescript compiler is totally fine with it.
@@ -67,7 +67,7 @@ A crash is inevitable. Your monitoring system will inform you in a few week.
 
 ## Was there a way to prevent all of this ?
 
-It would be nice if the Typescript compiler could help us with this.
+It would be nice if the Typescript compiler could help us with this. Let's check how the other languages are handling possible failures.
 
 ### Go
 In `Go`, they express that a function can fail by returning a tuple.
