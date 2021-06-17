@@ -2,6 +2,8 @@
 
 In our code, we write functions that can fail. They can fail because the domain forbids it or simply because an unknown error happened, like when an http request doesn't receive a response.
 
+Keep in mind this approach is more related to functionnal programming than object-oriented programming. 
+
 ## The situation
 
 Here's the situation, we have a function to buy a drink, a customer and a bartender.
