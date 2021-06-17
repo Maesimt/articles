@@ -48,7 +48,7 @@ You cannot let this go unpunished, you take upon you to fix the situation.
 You know what to do when you buy a drink for someone and they lied to you. You fine them with a nice 250$.
 
 ```typescript
-const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
+const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender): Drink => {
   try {
     const drink = buyDrink(person, barTender);
     person.receives(drink);
@@ -114,10 +114,94 @@ They define an `Either` type like this :
 ```typescript
 type Either<E, A> = Left<E> | Right<A>
 ```
+With lots of functions to operate on the type.
 
+### A friendly implementation
 
+We wrote our own implementation of the Either type in Typescript. We did it to reduce the learning curve that comes with libraries like `Fp-Ts`. One of our goal was a syntax that most javascript developers would understand.
 
-### Custom with the promise syntax.
+For this we defined our own `Result` like this.
+```typescript
+type Result<A, B> = Success<A, B> | Failure<A, B>;
 
+class Success<A, B> implements IResult<A, B> {
+  public readonly tag: 'Success';
+  public readonly value: B;
+  
+  // ...
+  
+}
 
+class Failure<A, B> implements IResult<A, B> {
+  public readonly tag: 'Failure';
+  public readonly error: A;
+  
+  // ...
+  
+}
+```
+Now if we rewrite our `buyDrink` function with this.
+```typescript
+import type { Result } from './Result';
+import { success, failure } from './Result';
 
+const buyDrink = (person: Person, barTender: BarTender): Result<String, Drink> => {
+  if (!person.isAdult()) {
+    return failure('People under 18 cannot drink alcool');
+  }
+  return success(barTender.serveClient());
+};
+```
+And now the Typescript compiler won't let you access the `.value` on the result if you did not check if it is an error before hand.
+```
+const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
+    const result = buyDrink(person, barTender);
+    
+    person.receives(result.value); // Won't compile... You are protected!
+};
+```
+To access the value you are force to code the `if` branch and define what you want to do in case of failure.
+```
+const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
+    const result = buyDrink(person, barTender);
+    
+    if (result.isError()) {
+      
+    }
+    
+    person.receives(result.value); // It compiles... The types were narrowed, result is now a guaranteed to be a success !
+};
+```
+
+### More to it.
+
+There's a bunch of function to operate on Result.
+```typescript
+interface IResult<A, B> {
+  andThen<C>(f: (b: B) => Result<A, C>): Result<A, C>;
+
+  map<C>(f: (b: B) => C): Result<A, C>;
+
+  mapError<C>(f: (a: A) => C): Result<C, B>;
+
+  orElse<C>(f: (a: A) => Result<C, B>): Result<C, B>;
+
+  withDefault<C>(fallback: C): B | C;
+}
+```
+This allows you to define what you want to do with the result in case it went right or wrong. 
+You can transform the data, extract values with default if there are not there, etc...
+```typescript
+const result = fetchPersons().map(takeFirst).withDefault(MikeTyson);
+```
+The above example is replacing the more verbose way to do it:
+```
+const result = fetchPersons();
+
+if (result.isError()) {
+  return MikeTyson;
+}
+
+return takeFirst(result.value);
+
+```
