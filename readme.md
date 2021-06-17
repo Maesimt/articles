@@ -9,12 +9,16 @@ Keep in mind this example is more related to functionnal programming than object
 Here's the situation, we have a function to buy a drink, a customer and a bartender.
 
 ```typescript
-const buyDrink = (person: Person, barTender: BarTender): Drink => {
-  if (!person.isAdult()) {
-    throw new IllegalPersonAction('People under 18 cannot drink alcool');
-  }
-  return barTender.serveClient()
-};
+class BarTender {
+  serve = (person: Person): Drink => {
+    if (!person.isAdult()) {
+      throw new IllegalPersonAction('People under 18 cannot drink alcool');
+    }
+    return new Drink('old fashionned'); 
+    // For our example, we break TDA by not doing: person.take(new Drink('...'));
+    // Just roll with it :D
+  };
+}
 
 class IllegalPersonAction extends Error {
   constructor(message) {
@@ -26,7 +30,7 @@ class IllegalPersonAction extends Error {
 
 The signature of our `buyDrink` function is :
 ```
-buyDrink: (Person, BarTender) => Drink
+serve: Person => Drink
 ```
 Just by reading the type signature, you can't tell that the function might fail.
 You have to go read the implementation in order to understand fully what's going on.
@@ -35,9 +39,9 @@ For example, you wrote the following code.
 
 ```typescript
 const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
-    const drink = buyDrink(person, barTender);
+    const drink = bartender.serve(person);
     
-    person.receives(drink);
+    person.take(drink);
 };
 ```
 
@@ -52,8 +56,9 @@ You know what to do when you buy a drink for someone and they lied to you. You f
 ```typescript
 const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender): Drink => {
   try {
-    const drink = buyDrink(person, barTender);
-    person.receives(drink);
+    const drink = bartender.serve(person);
+    
+    person.take(drink);
   } catch (e) {
     person.getsAFine(250);
   }
@@ -93,13 +98,13 @@ type Result error value
 ```
 If we code our `buyDrink` function in Elm
 ``` elm
-buyDrink : Person -> BarTender -> Result String Drink
-buyDrink person barTender =
+serve : Person -> BarTender -> Result String Drink
+serve person barTender =
   case isAdult person of 
     True ->
       let 
         drink =
-          Ok (serveClient barTender)
+          Ok (Drink "old fashionned")
       in
         
     False ->
@@ -147,17 +152,19 @@ Now if we rewrite our `buyDrink` function with this.
 import type { Result } from './Result';
 import { success, failure } from './Result';
 
-const buyDrink = (person: Person, barTender: BarTender): Result<String, Drink> => {
-  if (!person.isAdult()) {
-    return failure('People under 18 cannot drink alcool');
-  }
-  return success(barTender.serveClient());
-};
+class BarTender {
+  serve = (person: Person): Result<String, Drink> => {
+    if (!person.isAdult()) {
+       return failure('People under 18 cannot drink alcool');
+    }
+    return success(barTender.serveClient()); 
+  };
+}
 ```
 And now the Typescript compiler won't let you access the `.value` on the result if you did not check if it is an error before hand.
 ```typescript
 const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
-    const result = buyDrink(person, barTender);
+    const result = barTender.serve(person);
     
     person.receives(result.value); // Won't compile... You are protected!
 };
@@ -165,7 +172,7 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
 To access the value you are force to code the `if` branch and define what you want to do in case of failure.
 ```typescript
 const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
-    const result = buyDrink(person, barTender);
+    const result = barTender.serve(person);
     
     if (result.isError()) {
       person.getsAFine(250);
