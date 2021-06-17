@@ -6,7 +6,7 @@ Keep in mind this example is more related to functionnal programming than object
 
 ## The situation
 
-Here's the situation, we have a function to serve a drink, a customer and a bartender.
+Here's the situation, we have a function to serve a drink, a person and a bartender.
 
 ```typescript
 class BarTender {
