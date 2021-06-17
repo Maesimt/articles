@@ -14,9 +14,10 @@ class BarTender {
     if (!person.isAdult()) {
       throw new IllegalPersonAction('People under 18 cannot drink alcool');
     }
-    return new Drink('old fashionned'); 
+    
     // For our example, we break TDA by not doing: person.take(new Drink('...'));
     // Just roll with it :D
+    return new Drink('old fashionned'); 
   };
 }
 
