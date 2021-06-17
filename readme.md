@@ -99,8 +99,8 @@ type Result error value
 ```
 If we code our `buyDrink` function in Elm
 ``` elm
-serve : Person -> BarTender -> Result String Drink
-serve person barTender =
+serve : Person -> Result String Drink
+serve person =
   case isAdult person of 
     True ->
       Ok (Drink "old fashionned")
