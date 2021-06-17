@@ -55,7 +55,7 @@ You cannot let this go unpunished, you take upon you to fix the situation.
 You know what to do when you buy a drink for someone and they lied to you. You fine them with a nice 250$.
 
 ```typescript
-const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender): Drink => {
+const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
   try {
     const drink = bartender.serve(person);
     
