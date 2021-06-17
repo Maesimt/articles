@@ -169,7 +169,7 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
       person.getsAFine(250);
     }
     
-    person.receives(result.value); // It compiles... The types were narrowed, result is now a guaranteed to be a success !
+    person.receives(result.value); // It compiles... The types were narrowed, result is now guaranteed to be a success !
 };
 ```
 With this approach, you and your coworker are forced to handle the domain error. The compiler will help you not forget any case anywhere. If you don't handle it right now. The `Result` type will bubble up in the signature and you'll be force to handle it in the next caller until someone does handle it. You encode your domain errors in the type system and you cannot skip the handling like you could with exceptions in Javascript. It's a safer way to program robust systems.
