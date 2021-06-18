@@ -222,5 +222,5 @@ To understand what you can do with it, you can check the source.
 #### Special thanks to
 
 - [Olivier gamache](https://www.linkedin.com/in/olivier-gamache-1337420/) for clarifying my examples.
-- [Benjamin Matte-Jean](https://www.linkedin.com/in/benjamin-matte-jean-696a241a1/) for revising this.
+- [Benjamin Matte-Jean](https://www.linkedin.com/in/benjamin-matte-jean-696a241a1/) for his opinion.
 - [Nexapp](https://nexapp.ca/) for beeing supportive.
