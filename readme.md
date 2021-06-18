@@ -227,7 +227,7 @@ Now, when you'll implement this in your next project, please create a more domai
 import type { Result } from './Result';
 import { success, failure } from './Result';
 import type { BarTenderError } from './BarTenderError';
-import { UnderAgeError } from './BarTender';
+import { UnderAgeError } from './BarTenderError';
 
 class BarTender {
   serve = (person: Person): Result<BarTenderError, Drink> => {
