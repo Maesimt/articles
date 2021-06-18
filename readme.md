@@ -1,8 +1,8 @@
 # Handle domain errors safely in Typescript
 
-In our code, we write functions that can fail. They can fail because the domain forbids it or simply because an unknown error happened, like when an http request doesn't receive a response.
+In our code, we write functions that can fail. They can fail because the domain forbids it or simply because an unknown error happened, like when an HTTP request doesn't receive a response.
 
-Keep in mind this example is more related to functionnal programming than object-oriented programming. 
+Keep in mind this example is more related to functional programming than object-oriented programming. 
 
 ## The situation
 
@@ -36,7 +36,7 @@ serve: Person -> Drink
 Just by reading the type signature, you can't tell that the `serve` function might fail.
 It says, if you give me a Person, I'll give you a drink. There is no mention of any exceptions.
 You have to go read the implementation in order to understand fully what's going on.
-Another inconvenient with the following approach is that none of the functions using serve are required to handle it’s possible failure.
+Another inconvenience with the following approach is that none of the functions using serve are required to handle its possible failure.
 For example, you wrote the following code.
 
 ```typescript
@@ -47,13 +47,12 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
 };
 ```
 
-In `helpAFellowWithoutAGlass`, you don't intially see that `serve` can fail. 
-You have to go read `serve` to understand that this operation can fail.
-The code compiles, but <b>your function is not forced to handle the exception</b>.
-It's wierd because you are probably the best person to know what to do if `serve` doesn't work.
+When writing `helpAFellowWithoutAGlass`, you forgot that `serve` can fail. 
+The code compiles, but <b>your function is not handling the exception</b>.
 
+Fortunately, you understand how `serve` works and you know best how to handle the situation.
 You cannot let this go unpunished, you take upon you to fix the situation. 
-You know what to do when you buy a drink for a folk without a glass and they lied to you. You fine them with a nice 250$.
+You know what to do when you buy a drink for someone and they lied about their age. You fine them with a nice 250$.
 
 ```typescript
 const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
@@ -68,7 +67,7 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
 ```
 #### When it starts to crumble.
 
-A few months after the initial writing of the `helpAFellowWithoutAGlass` function, one of your coworker was doing some boyscouting and accidentally suppress your `try catch`.
+A few months after the initial writing of the `helpAFellowWithoutAGlass` function, one of your coworker was doing some refactoring and accidentally suppress your `try/catch`.
 Now the exception is not handled at all in the codebase and the Typescript compiler is totally fine with it.
 You and your coworker are unaware of the issue because you trust your fellow compiler, the all mighty Typescript one.
 You will encounter the exception at runtime. It's only a matter of time and your system is not prepared to handle it.
@@ -92,13 +91,13 @@ They first check that the function call didn't produce an error. If `err` is `ni
 ### Elm
 
 In Elm, they took a different approach. Instead of returning a tuple. They return a value that can either be the right value or an error.
-Their structure is defined like this :
+Their structure is defined like this.
 ```elm
 type Result error value
     = Ok value
     | Err error
 ```
-If we code our `serve` function in Elm
+If we code our `serve` function in Elm.
 ``` elm
 serve : Person -> Result String Drink
 serve person =
@@ -109,12 +108,12 @@ serve person =
     False ->
       Err "People under 18 cannot drink alcool"
 ```
-* Notes : `Ok` and `Err` are type constructor for the Result type.
+* Notes : `Ok` and `Err` are type constructors of the Result type.
 
 ### fp-ts
 
 In fp-ts they use the same concept has Elm and Haskell. 
-They define an `Either` type like this :
+They define an `Either` type like this.
 
 ```typescript
 type Either<E, A> = Left<E> | Right<A>
@@ -123,7 +122,7 @@ With lots of functions to operate on the type.
 
 ### A friendly implementation
 
-We wrote our own implementation of the Either type in Typescript. We did it to reduce the learning curve that comes with libraries like `fp-ts`. One of our goal was a syntax that most javascript developers would understand.
+We wrote our own implementation of the Either type in Typescript. We did it to reduce the learning curve that comes with the libraries like `fp-ts`. One of our goals was a syntax that most javascript developers would understand.
 
 For this we defined our own `Result` like this.
 ```typescript
@@ -167,7 +166,7 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
     person.receives(result.value); // Won't compile... You are protected!
 };
 ```
-To access the value you are force to code the `if` branch and define what you want to do in case of failure.
+To access the value you are forced to code the `if` branch and define what you want to do in case of failure.
 ```typescript
 const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
     const result = barTender.serve(person);
@@ -179,7 +178,7 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
     person.receives(result.value); // It compiles... The types were narrowed, result is now guaranteed to be a success !
 };
 ```
-With this approach, you and your coworker are forced to handle the domain error. The compiler will help you not forget any case anywhere. If you don't handle it right now. The `Result` type will bubble up in the signature and you'll be force to handle it in the next caller until someone does handle it. You encode your domain errors in the type system and you cannot skip the handling like you could with exceptions in Javascript. It's a safer way to program robust systems.
+With this approach, you and your coworker are forced to handle the domain error. The compiler will help you not forget any case anywhere. If you don't handle it right now. The `Result` type will bubble up in the signature and you'll be forced to handle it in the next caller until someone does handle it. You encode your domain errors in the type system and you cannot skip the handling like you could with exceptions in Javascript. It's a safer way to program robust systems.
 
 ### More to it.
 
@@ -202,7 +201,7 @@ You can transform the data, extract value with default fallback if it was not th
 ```typescript
 const result = fetchPersons().map(takeFirst).withDefault(MikeTyson);
 ```
-The above example is replacing the more verbose way to do it:
+The above example is replacing this more verbose way to do the equivalent.
 ```typescript
 const result = fetchPersons();
 
