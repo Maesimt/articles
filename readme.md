@@ -1,4 +1,4 @@
-# Handle domain errors safely in Typescript
+# Safely handle domain errors in Typescript
 
 In our code, we write functions that can fail. They can fail because the domain forbids it or simply because an unknown error happened, like when an HTTP request doesn't receive a response.
 
