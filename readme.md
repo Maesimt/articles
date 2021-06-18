@@ -217,6 +217,28 @@ To understand the endless possibilities this implementation provides, check out 
 - [Source](https://github.com/Maesimt/articles/blob/main/Result.ts)
 - [Tests](https://github.com/Maesimt/articles/blob/main/Result.test.ts)
 
+### Conclusion
+
+Unlike in `Java` and other statically typed languages, exception in `Javascript` are not guaranteed to be handled. Encoding the error as the first type parameter of the `Result` type, Typescript helps you to handle every case. It also gives you referential transparency and a more readable code base. Considering developers pass most of their time reading code, this is no small feat.
+
+Now, when you'll implement this in your next project, please create a more domain specific type to represent the possible errors that can happen in the `serve` function. A string is not restricted to only the bartending errors that may happen in the function. I'd suggest your create a custom type for the bartending errors to have a more expressive signature:
+
+```typescript
+import type { Result } from './Result';
+import { success, failure } from './Result';
+import type { BarTenderError } from './BarTenderError';
+import { UnderAgeError } from './BarTender';
+
+class BarTender {
+  serve = (person: Person): Result<BarTenderError, Drink> => {
+    if (!person.isAdult()) {
+       return failure(new UnderAgeError());
+    }
+    return success(new Drink("old fashionned"); 
+  };
+}
+```
+* I'll show the implementation of BarTenderError in an upcoming article.
 
 #### Special thanks to
 
