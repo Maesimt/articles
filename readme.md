@@ -1,4 +1,4 @@
-# Handle domain errors safely in Typescript
+# Safely handle domain errors in Typescript
 
 In our code, we write functions that may fail. They could fail because the domain forbids the action or simply because an unknown error happens, e.g. when an HTTP request doesn't receive a response.
 
@@ -88,6 +88,8 @@ doSomething(f)
 ```
 They first check that the function call didn't produce an error and then, if `err` is `nil`, only then can they safely use `f`.
 
+[Documentation](https://golang.org/doc/tutorial/handle-errors)
+
 ### Elm
 
 In Elm, they took a different approach: instead of returning a tuple, they return a value that can either be the right value or an error.
@@ -110,6 +112,8 @@ serve person =
 ```
 * Notes : `Ok` and `Err` are type constructors of the Result type.
 
+[Documentation](https://package.elm-lang.org/packages/elm/core/latest/Result)
+
 ### fp-ts
 
 In fp-ts they use the same concept as Elm and Haskell. 
@@ -119,6 +123,8 @@ They define an `Either` type like this.
 type Either<E, A> = Left<E> | Right<A>
 ```
 With lots of further features to operate on the type.
+
+[Documentation](https://gcanti.github.io/fp-ts/modules/Either.ts.html)
 
 ### A friendly implementation
 
