@@ -33,9 +33,10 @@ The signature of our `serve` function is :
 ```
 serve: Person -> Drink
 ```
-Just by reading the type signature, you can't tell that the function might fail.
+Just by reading the type signature, you can't tell that the `serve` function might fail.
+It says, if you give me a Person, I'll give you a drink. There is no mention of any exceptions.
 You have to go read the implementation in order to understand fully what's going on.
-Another problem of this approach is that all callers are not forced to handle the possible failure.
+Another inconvenient with the following approach is that none of the functions using serve are required to handle it’s possible failure.
 For example, you wrote the following code.
 
 ```typescript
@@ -46,13 +47,13 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
 };
 ```
 
-In `helpAFellowWithoutAGlass`, you don't intially see that it can fail. 
+In `helpAFellowWithoutAGlass`, you don't intially see that `serve` can fail. 
 You have to go read `serve` to understand that this operation can fail.
 The code compiles, but <b>your function is not forced to handle the exception</b>.
 It's wierd because you are probably the best person to know what to do if `serve` doesn't work.
 
 You cannot let this go unpunished, you take upon you to fix the situation. 
-You know what to do when you buy a drink for someone and they lied to you. You fine them with a nice 250$.
+You know what to do when you buy a drink for a folk without a glass and they lied to you. You fine them with a nice 250$.
 
 ```typescript
 const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
@@ -212,8 +213,15 @@ if (result.isError()) {
 return takeFirst(result.value);
 
 ```
-To understand what you can do with it, you can check the sources :
+To understand what you can do with it, you can check the source.
 
-Code: https://github.com/Maesimt/articles/blob/main/Result.ts
+[Source](https://github.com/Maesimt/articles/blob/main/Result.ts)
 
-Tests: https://github.com/Maesimt/articles/blob/main/Result.test.ts
+[Tests](https://github.com/Maesimt/articles/blob/main/Result.test.ts)
+
+
+#### Special thanks.
+
+To [Olivier gamache](https://www.linkedin.com/in/olivier-gamache-1337420/) for clarifying my examples.
+To [Benjamin Matte-Jean](https://www.linkedin.com/in/benjamin-matte-jean-696a241a1/) for 
+To [Nexapp](https://nexapp.ca/) for beeing supportive.
