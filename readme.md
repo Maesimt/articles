@@ -130,7 +130,7 @@ With lots of further features to operate on the type.
 
 We wrote our own implementation of the `Either` type in Typescript. We did it to reduce the learning curve that comes with libraries like `fp-ts` etc. One of our goals was a syntax that most `javascript` developers would quickly understand.
 
-With this goald in mind, we defined our own `Result`:
+With this goal in mind, we defined our own `Result`:
 ```typescript
 type Result<A, B> = Success<A, B> | Failure<A, B>;
 
