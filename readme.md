@@ -87,6 +87,7 @@ if err != nil {
 doSomething(f)
 ```
 They first check that the function call didn't produce an error. If `err` is `nil` then they can safely use the `f`.
+
 [Documentation][https://golang.org/doc/tutorial/handle-errors]
 
 ### Elm
@@ -110,6 +111,7 @@ serve person =
       Err "People under 18 cannot drink alcool"
 ```
 * Notes : `Ok` and `Err` are type constructors of the Result type.
+
 [Documentation](https://package.elm-lang.org/packages/elm/core/latest/Result)
 
 ### fp-ts
@@ -121,6 +123,7 @@ They define an `Either` type like this.
 type Either<E, A> = Left<E> | Right<A>
 ```
 With lots of functions to operate on the type.
+
 [Documentation](https://gcanti.github.io/fp-ts/modules/Either.ts.html)
 
 ### A friendly implementation
