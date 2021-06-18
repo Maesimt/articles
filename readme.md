@@ -244,4 +244,4 @@ class BarTender {
 
 - [Olivier gamache](https://www.linkedin.com/in/olivier-gamache-1337420/) for clarifying my examples and helping with my grammar.
 - [Benjamin Matte-Jean](https://www.linkedin.com/in/benjamin-matte-jean-696a241a1/) for his opinion.
-- [Nexapp](https://nexapp.ca/) for beeing supportive.
+- [Nexapp](https://nexapp.ca/) for being supportive.
