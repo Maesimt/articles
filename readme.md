@@ -174,7 +174,7 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
     const result = barTender.serve(person);
     
     if (result.isError()) {
-      person.getsAFine(250);
+      person.isFined(250);
     }
     
     person.receives(result.value); // It compiles... The types were narrowed, result is now guaranteed to be a success !
