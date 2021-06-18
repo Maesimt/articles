@@ -88,7 +88,7 @@ doSomething(f)
 ```
 They first check that the function call didn't produce an error. If `err` is `nil` then they can safely use the `f`.
 
-[Documentation][https://golang.org/doc/tutorial/handle-errors]
+[Documentation](https://golang.org/doc/tutorial/handle-errors)
 
 ### Elm
 
