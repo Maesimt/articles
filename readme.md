@@ -214,14 +214,12 @@ return takeFirst(result.value);
 
 ```
 To understand what you can do with it, you can check the source.
-
-[Source](https://github.com/Maesimt/articles/blob/main/Result.ts)
-
-[Tests](https://github.com/Maesimt/articles/blob/main/Result.test.ts)
+- [Source](https://github.com/Maesimt/articles/blob/main/Result.ts)
+- [Tests](https://github.com/Maesimt/articles/blob/main/Result.test.ts)
 
 
 #### Special thanks.
 
-To [Olivier gamache](https://www.linkedin.com/in/olivier-gamache-1337420/) for clarifying my examples.
-To [Benjamin Matte-Jean](https://www.linkedin.com/in/benjamin-matte-jean-696a241a1/) for 
-To [Nexapp](https://nexapp.ca/) for beeing supportive.
+- To [Olivier gamache](https://www.linkedin.com/in/olivier-gamache-1337420/) for clarifying my examples.
+- To [Benjamin Matte-Jean](https://www.linkedin.com/in/benjamin-matte-jean-696a241a1/) for 
+- To [Nexapp](https://nexapp.ca/) for beeing supportive.
