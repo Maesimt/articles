@@ -238,7 +238,7 @@ class BarTender {
   };
 }
 ```
-*I'll show the implementation of BarTenderError in an upcoming article. Stay tuned!*
+*Note: I'll show the implementation of BarTenderError in an upcoming article. Stay tuned!*
 
 #### Special thanks to
 
