@@ -146,7 +146,7 @@ class Failure<A, B> implements IResult<A, B> {
   // ...
 }
 ```
-Now, if we refacotr our `serve` function using our new `Result`,
+Now, if we refactor our `serve` function using our new `Result`,
 ```typescript
 import type { Result } from './Result';
 import { success, failure } from './Result';
