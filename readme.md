@@ -131,17 +131,13 @@ type Result<A, B> = Success<A, B> | Failure<A, B>;
 class Success<A, B> implements IResult<A, B> {
   public readonly tag: 'Success';
   public readonly value: B;
-  
   // ...
-  
 }
 
 class Failure<A, B> implements IResult<A, B> {
   public readonly tag: 'Failure';
   public readonly error: A;
-  
   // ...
-  
 }
 ```
 Now if we rewrite our `serve` function with this.
