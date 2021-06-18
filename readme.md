@@ -1,6 +1,6 @@
 # A safer way to handle exceptions in Typescript
 
-Hey, have you ever been looking at an exception in some logs and wondering to yourself: Why wasn't it handled by the system? To only find out later that it was a missing `try/catch` block. Have this happen to you? If not, let me tell you a little story about why it can happen even to the most careful developers.
+Hey, have you ever been looking at an exception in some logs and wondering to yourself: Why wasn't it handled by the system? To only find out later that it was a missing `try/catch` block. Have this happen to you? If not, let me tell you a little story about why it can happen to the most careful developers.
 
 In our code, we write functions that may fail. They could fail because the domain forbids the action or simply because an unknown error happens, e.g. when an HTTP request doesn't receive a response.
 
