@@ -221,7 +221,7 @@ To understand the endless possibilities this implementation provides, check out 
 
 Unlike in `Java` and other statically typed languages, exceptions in `Javascript` are not guaranteed to be handled. When you encode the error as the first type parameter of the `Result` type, Typescript helps you handle every case. It also gives you referential transparency and a more readable code base. Considering developers pass most of their time reading code, this is no small feat.
 
-Now, when you'll implement this in your next project, please create a more domain specific type to represent the possible errors that can happen in the `serve` function. A string is not only restricted to the bartending errors that may happen in the function. I'd suggest your create a custom type for the bartending errors to have a more expressive signature:
+Now, when you'll implement this in your next project, please create a more domain specific type to represent the possible errors that can happen in the `serve` function. A string is not representative of what happened, anyone could change its content to something which won't represent your case and the compiler won't tell you. I'd suggest creating a custom type for bartending errors to achieve an expressive signature.
 
 ```typescript
 import type { Result } from './Result';
