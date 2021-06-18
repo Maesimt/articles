@@ -6,7 +6,7 @@ In our code, we write functions that may fail. They could fail because the domai
 
 ##### Keep in mind this example is more related to functional programming than object-oriented programming.
 
-## The situation
+## The story
 
 Here's the story: we have a function to serve a drink, which needs a person and a bartender.
 
