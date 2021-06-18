@@ -1,12 +1,12 @@
 # Handle domain errors safely in Typescript
 
-In our code, we write functions that can fail. They can fail because the domain forbids it or simply because an unknown error happened, like when an HTTP request doesn't receive a response.
+In our code, we write functions that may fail. They could fail because the domain forbids the action or simply because an unknown error happens, e.g. when an HTTP request doesn't receive a response.
 
-Keep in mind this example is more related to functional programming than object-oriented programming. 
+##### Keep in mind this example is more related to functional programming than object-oriented programming.
 
 ## The situation
 
-Here's the situation, we have a function to serve a drink, a person and a bartender.
+Here's the situation: we have a function to serve a drink, which needs a person and a bartender.
 
 ```typescript
 class BarTender {
@@ -15,7 +15,7 @@ class BarTender {
       throw new IllegalPersonAction('People under 18 cannot drink alcool');
     }
     
-    // For our example, we break TDA by not doing: person.take(new Drink('...'));
+    // For our example's sake, we break TDA by not doing: person.takes(new Drink('...'));
     // Just roll with it :D
     return new Drink('old fashionned'); 
   };
@@ -33,24 +33,24 @@ The signature of our `serve` function is :
 ```
 serve: Person -> Drink
 ```
-Just by reading the type signature, you can't tell that the `serve` function might fail.
-It says, if you give me a Person, I'll give you a drink. There is no mention of any exceptions.
-You have to go read the implementation in order to understand fully what's going on.
-Another inconvenience with the following approach is that none of the functions using serve are required to handle its possible failure.
-For example, you wrote the following code.
+Just by reading the type signature, you can't tell that the `serve` function is prone to failing.
+It says: if you give me a Person, I'll give you a drink. There is no mention of any exceptions.
+You have to explore the implementation in order to fully understand what's going on.
+Another inconvenience with our current approach is that none of the functions using `serve` are required to handle its possible failure.
+Let's say you've written the following code.
 
 ```typescript
 const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
     const drink = bartender.serve(person);
     
-    person.take(drink);
+    person.takes(drink);
 };
 ```
 
-When writing `helpAFellowWithoutAGlass`, you forgot that `serve` can fail. 
+When writing `helpAFellowWithoutAGlass`, you forgot that `serve` may fail. 
 The code compiles, but <b>your function is not handling the exception</b>.
 
-Fortunately, you understand how `serve` works and you know best how to handle the situation.
+Fortunately, you understand how `serve` works and you know how best to handle the situation.
 You cannot let this go unpunished, you take upon you to fix the situation. 
 You know what to do when you buy a drink for someone and they lied about their age. You fine them with a nice 250$.
 
@@ -59,19 +59,19 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
   try {
     const drink = bartender.serve(person);
     
-    person.take(drink);
+    person.takes(drink);
   } catch (e) {
-    person.getsAFine(250);
+    person.isFined(250);
   }
 };
 ```
 #### When it starts to crumble.
 
-A few months after the initial writing of the `helpAFellowWithoutAGlass` function, one of your coworker was doing some refactoring and accidentally suppress the `try/catch`.
+A few months after the initial writing of the `helpAFellowWithoutAGlass` function, one of your coworker refactors and accidentally suppresses the `try/catch`.
 Now the exception is not handled at all in the codebase and the Typescript compiler is totally fine with it.
 You and your coworker are unaware of the issue because you trust your fellow compiler, mighty Typescript.
-You will encounter the exception at runtime. It's only a matter of time and your system is not prepared to handle it.
-A crash is inevitable. You will learn about this mistake through your monitoring system in a few week.
+The problem is that you will encounter the exception at runtime. It's only a matter of time and your system is not prepared to for it.
+A crash is inevitable and you will be notified down the line that this horrible mistake happened to an important client through your monitoring system (if you've implemented one).
 
 ## Was there a way to prevent all of this ?
 
@@ -86,18 +86,18 @@ if err != nil {
 }
 doSomething(f)
 ```
-They first check that the function call didn't produce an error. If `err` is `nil` then they can safely use the `f`.
+They first check that the function call didn't produce an error and then, if `err` is `nil`, only then can they safely use `f`.
 
 ### Elm
 
-In Elm, they took a different approach. Instead of returning a tuple. They return a value that can either be the right value or an error.
-Their structure is defined like this.
+In Elm, they took a different approach: instead of returning a tuple, they return a value that can either be the right value or an error.
+Their structure is defined like this:
 ```elm
 type Result error value
     = Ok value
     | Err error
 ```
-If we code our `serve` function in Elm.
+If we code our `serve` function in Elm, it could look like:
 ``` elm
 serve : Person -> Result String Drink
 serve person =
@@ -112,19 +112,19 @@ serve person =
 
 ### fp-ts
 
-In fp-ts they use the same concept has Elm and Haskell. 
+In fp-ts they use the same concept as Elm and Haskell. 
 They define an `Either` type like this.
 
 ```typescript
 type Either<E, A> = Left<E> | Right<A>
 ```
-With lots of functions to operate on the type.
+With lots of further features to operate on the type.
 
 ### A friendly implementation
 
-We wrote our own implementation of the Either type in Typescript. We did it to reduce the learning curve that comes with the libraries like `fp-ts`. One of our goals was a syntax that most javascript developers would understand.
+We wrote our own implementation of the `Either` type in Typescript. We did it to reduce the learning curve that comes with libraries like `fp-ts` etc. One of our goals was a syntax that most `javascript` developers would quickly understand.
 
-For this we defined our own `Result` like this.
+With this goald in mind, we defined our own `Result`:
 ```typescript
 type Result<A, B> = Success<A, B> | Failure<A, B>;
 
@@ -140,7 +140,7 @@ class Failure<A, B> implements IResult<A, B> {
   // ...
 }
 ```
-Now if we rewrite our `serve` function with this.
+Now, if we refacotr our `serve` function using our new `Result`,
 ```typescript
 import type { Result } from './Result';
 import { success, failure } from './Result';
@@ -154,7 +154,7 @@ class BarTender {
   };
 }
 ```
-And now the Typescript compiler won't let you access the `.value` on the result if you did not check if it is an error before hand.
+Voilà! now the Typescript compiler won't let you access the `.value` on the result if you haven't checked if it carried an error beforehand.
 ```typescript
 const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
     const result = barTender.serve(person);
@@ -162,7 +162,7 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
     person.receives(result.value); // Won't compile... You are protected!
 };
 ```
-To access the value you are forced to code the `if` branch and define what you want to do in case of failure.
+To access the value you are forced to code the `if` branch and define what you want to do in case of a failure.
 ```typescript
 const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
     const result = barTender.serve(person);
@@ -174,11 +174,10 @@ const helpAFellowWithoutAGlass = (person: Person, barTender: BarTender) => {
     person.receives(result.value); // It compiles... The types were narrowed, result is now guaranteed to be a success !
 };
 ```
-With this approach, you and your coworker are forced to handle the domain error. The compiler will help you not forget any case anywhere. If you don't handle it right now. The `Result` type will bubble up in the signature and you'll be forced to handle it in the next caller until someone does handle it. You encode your domain errors in the type system and you cannot skip the handling like you could with exceptions in Javascript. It's a safer way to program robust systems.
+With this approach, you and your coworker are forced to handle the domain error. The compiler will help you remember every possible case. If you don't handle it right now. The `Result` type will bubble up in the signature and you'll be forced to handle it in the next caller until someone does handle it. You encode your domain errors in the type system and you cannot skip the handling like you could with exceptions in `javascript`. It definitely is a safer way to program robust systems.
 
 ### More to it.
-
-There's a bunch of function to operate on Result.
+There's a bunch of function to operate on `Result`.
 ```typescript
 interface IResult<A, B> {
   andThen<C>(f: (b: B) => Result<A, C>): Result<A, C>;
@@ -193,7 +192,7 @@ interface IResult<A, B> {
 }
 ```
 It allows you to define what you want to do with the result in case it went right or wrong. 
-You can transform the data, extract value with default fallback if it was not there, etc...
+You can manipulate the data, extract values and define default fallbacks in case something is missing, etc...
 ```typescript
 const result = fetchPersons().map(takeFirst).withDefault(MikeTyson);
 ```
@@ -208,13 +207,13 @@ if (result.isError()) {
 return takeFirst(result.value);
 
 ```
-To understand what you can do with it, you can check the source.
+To understand the endless possibilities this implementation provides, check out the source!
 - [Source](https://github.com/Maesimt/articles/blob/main/Result.ts)
 - [Tests](https://github.com/Maesimt/articles/blob/main/Result.test.ts)
 
 
 #### Special thanks to
 
-- [Olivier gamache](https://www.linkedin.com/in/olivier-gamache-1337420/) for clarifying my examples.
+- [Olivier gamache](https://www.linkedin.com/in/olivier-gamache-1337420/) for clarifying my examples and helping with my grammar.
 - [Benjamin Matte-Jean](https://www.linkedin.com/in/benjamin-matte-jean-696a241a1/) for revising this.
 - [Nexapp](https://nexapp.ca/) for beeing supportive.
